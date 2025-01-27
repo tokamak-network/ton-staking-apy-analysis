@@ -75,5 +75,5 @@ You can also use this Excel file to create your own chart, comparing the **TON S
 ---
 
 ## Notes
-- Ensure you update the `StakingDayDatas` and total supply data accurately before running the scripts.
+- Ensure you update the `StakingDayDatas` and `totalSupplyByMonth` accurately before running the scripts.
 - Refer to the respective script comments for detailed implementation guidance.
