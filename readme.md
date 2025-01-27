@@ -60,7 +60,10 @@ Ensure you have the following before proceeding:
 
 ### 4. Create Charts
 Use `ton_staking_apy_with_prices.xlsx` to create visualizations of the TON staking APY and price data. Use your preferred spreadsheet software for chart creation.
-
+![image](https://github.com/user-attachments/assets/36b708bb-2c63-4907-a1ab-39d8db271507) 
+Here is a sample chart which I created using the Numbers software on MacBook. You can download the file and use it as a reference:
+- **Download the sample chart file:** [ton_staking_apy_with_prices.xlsx](https://drive.google.com/file/d/17rPUTGntU-H3egb3EjEv34OGP7HRRAu_/view?usp=sharing)
+You can also use this Excel file to create your own chart, comparing the **TON Staking APY** with **TON Price**, and visualize how the staking rewards and price fluctuate over time.
 ---
 
 ## Output Files
