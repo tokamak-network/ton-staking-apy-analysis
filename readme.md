@@ -1,55 +1,76 @@
-using this scripts you can find
+# TON Staking APY and Price Analysis Scripts
 
-TON Staking APY/ROI and TON Prices of the specific Dates
+This repository contains scripts and steps to calculate **TON Staking APY/ROI** and retrieve **TON Prices** for specific dates. By following the steps below, you can generate an Excel file and corresponding charts for analysis.
 
-First Step
+---
 
-Find TON Staking APY
-for that use this script get_ton_staking_apy.js
-so first in this script you can pass StakingDayDatas
-which you can get from this Curl
+## Prerequisites
 
-curl --location 'https://gateway.thegraph.com/api/de0a7a09c2dfa265f01f0a63b6fa7f43/subgraphs/id/CJLiXNdHXJ22BzWignD62gohDRVTYXJQVgU4qKJEtNVS' \
---header 'accept: */*' \
---header 'accept-language: en-GB,en;q=0.8' \
---header 'content-type: application/json' \
---header 'origin: https://simple.staking.tokamak.network' \
---header 'priority: u=1, i' \
---header 'referer: https://simple.staking.tokamak.network/' \
---header 'sec-ch-ua: "Not A(Brand";v="8", "Chromium";v="132", "Brave";v="132"' \
---header 'sec-ch-ua-mobile: ?0' \
---header 'sec-ch-ua-platform: "macOS"' \
---header 'sec-fetch-dest: empty' \
---header 'sec-fetch-mode: cors' \
---header 'sec-fetch-site: cross-site' \
---header 'sec-gpc: 1' \
---header 'user-agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36' \
---header 'Cookie: __cf_bm=5dEMyMcYZ3t5gTRpMXcalBpwO34rCDaemrLWQcb4pXw-1737954278-1.0.1.1-FiH6VqVwTdDOf7W2m8wsZAjuNoJbNZoo2B6V4ltpkUiHAs4duaxkrmmI9YCFG7OQc8nkc9o3YIQWSXgNWx064A' \
---data '{"query":"query GetGraph($id: String) {\n  stakingDayDatas(first: 1000,orderBy: date, orderDirection: asc) {\n    id\n    totalStaked\n    date\n    __typename\n  }\n}","variables":{}}'
+Ensure you have the following before proceeding:
+- Node.js installed.
+- Access to the APIs and spreadsheet links mentioned in the steps.
 
+---
 
-now once you have StakingDayDatas you can add in the script 
-now you need total TON supply of the dates as well so for that you can find it from this file 
-https://docs.google.com/spreadsheets/u/1/d/1-4dT3nS4q7RwLgGI6rQ7M1hPx9XHI-Ryw1rkBCvTdcs/edit?gid=681869004#gid=681869004
-now you need to create totalSupplyByMonth in that script to add correct total supply from this file 
-now you are good to go to get correct APY so now run the script 
-it will create ton_staking_apy.xlsx where you can see all the TON staking APY of that date
+## Steps to Use
 
+### 1. Find TON Staking APY
+1. Run the `get_ton_staking_apy.js` script after preparing the required data:
+    - **StakingDayDatas:** 
+      Retrieve `StakingDayDatas` from the following API using the `curl` command:
+      ```bash
+      curl --location 'https://gateway.thegraph.com/api/de0a7a09c2dfa265f01f0a63b6fa7f43/subgraphs/id/CJLiXNdHXJ22BzWignD62gohDRVTYXJQVgU4qKJEtNVS' \
+      --header 'accept: */*' \
+      --header 'content-type: application/json' \
+      --data '{"query":"query GetGraph($id: String) {\n  stakingDayDatas(first: 1000,orderBy: date, orderDirection: asc) {\n    id\n    totalStaked\n    date\n    __typename\n  }\n}","variables":{}}'
+      ```
+    - Once retrieved, add the `StakingDayDatas` into the script.
+    
+2. **Total TON Supply:**
+   Retrieve the monthly total TON supply from [this Google Sheet](https://docs.google.com/spreadsheets/u/1/d/1-4dT3nS4q7RwLgGI6rQ7M1hPx9XHI-Ryw1rkBCvTdcs/edit?gid=681869004#gid=681869004). 
+   - Create a `totalSupplyByMonth` mapping in `get_ton_staking_apy.js` using data from the spreadsheet.
 
-Now you need to find TON Prices of the same dates so for that we will get from DUNE API
-so for that you need to create one query using this script create_ton_price_query.js
-so once you run this you will get query_with_dates.txt this file where you can see one query 
-Now you need to open this dune link https://dune.com/queries/3206902
-now you can fork and replace that query with the one which is generate from query_with_dates.txt
-now you need to run it and you can copy the that api as curl and copy the entire response of that api
-you can add that response  in ton_price.json 
+3. Run `get_ton_staking_apy.js` to calculate TON staking APY.
+   - The script will generate an output file: `ton_staking_apy.xlsx`.
 
-now you just need to fetch the TON price and attach it based on the date to TON APY 
-so for that run this script map_ton_price_with_apy.js 
-it will create ton_staking_apy_with_prices.xlsx where you can see the date ,TON staking APY , TON Price
-now you can create chart of it 
+---
 
+### 2. Find TON Prices
+1. Use the script `create_ton_price_query.js` to generate a query.
+   - Running this script creates a file named `query_with_dates.txt`.
 
+2. Access DUNE Analytics:
+   - Open this [DUNE query link](https://dune.com/queries/3206902) and fork it.
+   - Replace the query in the forked version with the one from `query_with_dates.txt`.
 
+3. Run the DUNE query and export the results:
+   - Copy the API curl and entire response. 
+   - Save the response as `ton_price.json`.
 
+---
 
+### 3. Map TON Prices with APY
+1. Run the `map_ton_price_with_apy.js` script:
+   - This script uses `ton_price.json` and `ton_staking_apy.xlsx`.
+
+2. The script generates `ton_staking_apy_with_prices.xlsx`:
+   - The file includes dates, TON staking APY, and TON prices.
+
+---
+
+### 4. Create Charts
+Use `ton_staking_apy_with_prices.xlsx` to create visualizations of the TON staking APY and price data. Use your preferred spreadsheet software for chart creation.
+
+---
+
+## Output Files
+- **`ton_staking_apy.xlsx`**: Contains TON staking APY by date.
+- **`query_with_dates.txt`**: Query to retrieve TON prices from DUNE.
+- **`ton_price.json`**: Response containing TON prices by date.
+- **`ton_staking_apy_with_prices.xlsx`**: Combined TON staking APY and price data for analysis.
+
+---
+
+## Notes
+- Ensure you update the `StakingDayDatas` and total supply data accurately before running the scripts.
+- Refer to the respective script comments for detailed implementation guidance.
